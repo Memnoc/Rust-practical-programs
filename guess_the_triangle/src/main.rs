@@ -35,7 +35,7 @@ fn main() {
             let mut angle_type = String::new();
             println!(
                 "{}",
-                "Srivi il tipo di anglo o scrivi 'esci' per uscire: ".cyan()
+                "Scrivi il tipo di anglo o scrivi 'esci' per uscire: ".cyan()
             );
             io::stdout().flush().unwrap();
             io::stdin()
@@ -69,7 +69,7 @@ fn main() {
         if user_input == correct_type {
             println!(
                 "{} L'angolo di {} gradi è un angolo {}.",
-                "GIUSTO!".red().bold(),
+                "GIUSTO!".green().bold(),
                 angle.to_string().yellow().bold(),
                 correct_type.green(),
             );
