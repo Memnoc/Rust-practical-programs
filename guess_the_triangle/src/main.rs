@@ -1,40 +1,49 @@
 use clap::{Arg, Command};
+use colored::*;
 use rand::Rng;
 use std::io::{self, Write};
 
 fn main() {
     let matches = Command::new("== Programma per imparare gli angoli ==")
         .version("1.0")
-        .author("Matteo Stara")
+        .author("Matteo Stara <smartdroidesign@gmail.com>")
         .about("Aiutiamo i giovani studenti ad imparare i diversi tipi di angoli")
         .arg(
-            Arg::new("comincia")
-                .long("comincia")
-                .short('c')
+            Arg::new("start")
+                .long("start")
+                .short('s')
                 .help("Comincia la sessione per imparare gli angoli"),
         )
         .get_matches();
 
-    if matches.contains_id("comincia") {
+    if matches.contains_id("start") {
         angle_identification_session();
     } else {
-        println!("Use --comincia per iniziare la sessione");
+        println!("Usa --start per iniziare la sessione");
     }
 
     fn angle_identification_session() {
         loop {
             let random_angle = rand::thread_rng().gen_range(1..=360);
-            println!("Che tipo di angolo è: {} gradi?", random_angle);
+            println!(
+                "{} {} {}?",
+                "Che tipo di angolo ha".bold(),
+                random_angle.to_string().yellow().bold(), // Convert the angle to a string and make it bold
+                "gradi".green().bold()
+            );
 
             let mut angle_type = String::new();
-            println!("Srivi il tipo di anglo o scrivi 'esci' per uscire: ");
+            println!(
+                "{}",
+                "Srivi il tipo di anglo o scrivi 'esci' per uscire: ".cyan()
+            );
             io::stdout().flush().unwrap();
             io::stdin()
                 .read_line(&mut angle_type)
                 .expect("failed to read line");
 
             if angle_type.trim().eq_ignore_ascii_case("esci") {
-                println!("Uscita programma.");
+                println!("Prigramma terminato.");
                 break;
             }
 
@@ -49,7 +58,7 @@ fn main() {
             1..=89 => "acuto",
             91..=179 => "ottuso",
             180 => "piatto",
-            181..=359 => "piatto", // This range seems incorrect; it should be 'ottuso' until 359
+            181..=359 => "piatto",
             _ => "non valido",
         };
 
@@ -59,13 +68,17 @@ fn main() {
     fn validate_user_input(user_input: &str, correct_type: &str, angle: i32) {
         if user_input == correct_type {
             println!(
-                "Corretto!! L'angolo di {} gradi è un angolo {}.",
-                angle, correct_type
+                "{} L'angolo di {} gradi è un angolo {}.",
+                "GIUSTO!".red().bold(),
+                angle.to_string().yellow().bold(),
+                correct_type.green(),
             );
         } else {
             println!(
-                "Sbagliato!! L'angolo di {} gradi è un angolo {}, non un angolo {}.",
-                angle, correct_type, user_input
+                "{} L'angolo di {} gradi è un angolo {}.",
+                "SBAGLIATO!".red().bold(),
+                angle.to_string().yellow().bold(),
+                correct_type.green(),
             );
         }
     }
